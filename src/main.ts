@@ -1,25 +1,141 @@
-import './style.css'
+import './style.css';
 
+const SELECTORS = {
+    NEXT_BTN: '.next-slide-btn',
+    SLIDER_DOT: '.slider-dot',
+    CARD: '.card',
+};
 
+const MODIFIERS = {
+    HIDDEN_CARD: 'card-hidden',
+    CURRENT_DOT: 'dot-current',
+    CARD_OVERLAY: 'card-overlay',
+};
 
+class SliderHanlder {
+    private currentCard: number;
+    private cards: HTMLDivElement[];
+    private dots: HTMLButtonElement[];
 
+    constructor() {
+        this.currentCard = 0;
 
-export function accessDomElement<T extends Element>(
-  selector: string,
-  expectedElementType: new () => T,
-  parent: HTMLElement = document.body
-): T {
-  const element = parent.querySelector(selector);
+        const cards = accessDomElements<HTMLDivElement>(
+            SELECTORS.CARD,
+            HTMLDivElement
+        );
+        this.cards = cards;
 
-  if (!element) {
-      throw new Error(`Element not found: ${selector}`);
-  }
+        const dots = accessDomElements<HTMLButtonElement>(
+            SELECTORS.SLIDER_DOT,
+            HTMLButtonElement
+        );
+        this.dots = dots;
+    }
 
-  if (!(element instanceof expectedElementType)) {
-      throw new Error(
-          `Expected ${expectedElementType.name}, but found ${element.constructor.name}`
-      );
-  }
+    init() {
+        this.tick();
+        this.setupEventListeners();
+    }
 
-  return element;
+    setupEventListeners() {
+        const nextBtn = accessDomElement(SELECTORS.NEXT_BTN, HTMLButtonElement);
+
+        nextBtn.addEventListener('click', () => {
+            nextBtn.disabled = true;
+            this.currentCard =
+                this.currentCard === this.cards.length - 1
+                    ? 0
+                    : this.currentCard + 1;
+
+            this.tick();
+
+            setTimeout(() => (nextBtn.disabled = false), 300);
+        });
+
+        this.dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                this.dots.forEach((dot) => (dot.disabled = true));
+
+                this.currentCard = index;
+                this.tick();
+
+                setTimeout(
+                    () => this.dots.forEach((dot) => (dot.disabled = false)),
+                    300
+                );
+            });
+        });
+    }
+
+    tick() {
+        this.cards.forEach((card, index) => {
+            this.stripCardModifiers(card);
+            if (index < this.currentCard) {
+                card.classList.add(MODIFIERS.CARD_OVERLAY);
+            } else if (index > this.currentCard) {
+                card.classList.add(MODIFIERS.HIDDEN_CARD);
+            }
+        });
+
+        this.dots.forEach((dot, index) => {
+            dot.classList.remove(MODIFIERS.CURRENT_DOT);
+            if (index === this.currentCard) {
+                dot.classList.add(MODIFIERS.CURRENT_DOT);
+            }
+        });
+    }
+
+    stripCardModifiers(card: HTMLDivElement) {
+        card.classList.remove(MODIFIERS.CARD_OVERLAY);
+        card.classList.remove(MODIFIERS.HIDDEN_CARD);
+    }
 }
+
+function accessDomElement<T extends Element>(
+    selector: string,
+    expectedElementType: new () => T,
+    parent: HTMLElement = document.body
+): T {
+    const element = parent.querySelector(selector);
+
+    if (!element) {
+        throw new Error(`Element not found: ${selector}`);
+    }
+
+    if (!(element instanceof expectedElementType)) {
+        throw new Error(
+            `Expected ${expectedElementType.name}, but found ${element.constructor.name}`
+        );
+    }
+
+    return element;
+}
+
+function accessDomElements<T extends Element>(
+    selector: string,
+    expectedElementType: new () => T,
+    parent: HTMLElement = document.body
+): T[] {
+    const elements = Array.from(parent.querySelectorAll(selector));
+
+    if (elements.length === 0) {
+        throw new Error(`No elements found for selector: ${selector}`);
+    }
+
+    const filteredElements = elements.filter(
+        (el): el is T => el instanceof expectedElementType
+    );
+
+    if (filteredElements.length !== elements.length) {
+        throw new Error(
+            `Some elements do not match expected type ${expectedElementType.name}`
+        );
+    }
+
+    return filteredElements;
+}
+
+const sliderHandler = new SliderHanlder();
+
+sliderHandler.init();

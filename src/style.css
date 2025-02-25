@@ -58,7 +58,7 @@ body {
     background-color: #934d00;
 }
 
-.slider-dot.active {
+.slider-dot.dot-current {
     background-color: #ef7d00;
 }
 
@@ -72,7 +72,7 @@ body {
     width: 561px;
     height: 100%;
     border-radius: 30px;
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.3s ease, opacity 0.3s ease-in-out;
     filter: drop-shadow(0px 21px 46px rgba(0, 0, 0, 0.1))
         drop-shadow(0px 83px 83px rgba(0, 0, 0, 0.09))
         drop-shadow(0px 187px 112px rgba(0, 0, 0, 0.05))
@@ -80,15 +80,15 @@ body {
         drop-shadow(0px 521px 146px rgba(0, 0, 0, 0));
 }
 
-.card.overlay::after {
+.card.card-overlay::after {
     content: '';
     position: absolute;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.card.active {
-    z-index: 10;
+.card.card-hidden {
+    opacity: 0;
 }
 
 .card header {
@@ -143,9 +143,17 @@ body {
     transform: rotate(-4.003deg);
 }
 
+.card:nth-of-type(3).card-hidden {
+    transform: translate(200px, 200px);
+}
+
 .card:nth-of-type(4) {
     z-index: 3;
     transform: rotate(5.002deg);
+}
+
+.card:nth-of-type(4).card-hidden {
+    transform: translate(50px, 200px);
 }
 
 .card:nth-of-type(5) {
@@ -154,8 +162,16 @@ body {
     top: 60px;
 }
 
+.card:nth-of-type(5).card-hidden {
+    transform: translate(200px, -50px);
+}
+
 .card:nth-of-type(6) {
     z-index: 5;
     top: 60px;
     transform: rotate(4.775deg);
+}
+
+.card:nth-of-type(6).card-hidden {
+    transform: translate(200px, 100px);
 }
