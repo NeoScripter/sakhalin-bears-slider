@@ -19,6 +19,49 @@ body {
     position: relative;
 }
 
+.slider-controls {
+    z-index: 30;
+    width: 166px;
+    position: absolute;
+    top: 79px;
+    right: 0;
+}
+
+.next-slide-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 13px;
+    width: 100%;
+}
+
+.next-slide-btn img {
+    width: 100%;
+    object-fit: contain;
+}
+
+.slider-dots {
+    padding-inline: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 11px;
+}
+
+.slider-dot {
+    cursor: pointer;
+    height: 22px;
+    border: none;
+    width: 22px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background-color: #934d00;
+}
+
+.slider-dot.active {
+    background-color: #ef7d00;
+}
+
 .card {
     position: absolute;
     overflow: hidden;
@@ -29,6 +72,7 @@ body {
     width: 561px;
     height: 100%;
     border-radius: 30px;
+    transition: transform 0.5s ease-in-out;
     filter: drop-shadow(0px 21px 46px rgba(0, 0, 0, 0.1))
         drop-shadow(0px 83px 83px rgba(0, 0, 0, 0.09))
         drop-shadow(0px 187px 112px rgba(0, 0, 0, 0.05))
@@ -36,7 +80,14 @@ body {
         drop-shadow(0px 521px 146px rgba(0, 0, 0, 0));
 }
 
-.card:nth-of-type(5) {
+.card.overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.card.active {
     z-index: 10;
 }
 
@@ -81,4 +132,30 @@ body {
     object-position: center;
     width: 100%;
     height: 100%;
+}
+
+.card:nth-of-type(2) {
+    z-index: 1;
+}
+
+.card:nth-of-type(3) {
+    z-index: 2;
+    transform: rotate(-4.003deg);
+}
+
+.card:nth-of-type(4) {
+    z-index: 3;
+    transform: rotate(5.002deg);
+}
+
+.card:nth-of-type(5) {
+    z-index: 4;
+    transform: rotate(1deg);
+    top: 60px;
+}
+
+.card:nth-of-type(6) {
+    z-index: 5;
+    top: 60px;
+    transform: rotate(4.775deg);
 }
