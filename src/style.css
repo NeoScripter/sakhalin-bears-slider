@@ -1,0 +1,84 @@
+body {
+    font-family: 'Onest', serif;
+    letter-spacing: 0.07em;
+    min-height: 100vh;
+}
+
+.container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-wrapper {
+    margin-top: 40px;
+    width: 638px;
+    height: 768px;
+    padding: 10px;
+    position: relative;
+}
+
+.card {
+    position: absolute;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    top: 0;
+    width: 561px;
+    height: 100%;
+    border-radius: 30px;
+    filter: drop-shadow(0px 21px 46px rgba(0, 0, 0, 0.1))
+        drop-shadow(0px 83px 83px rgba(0, 0, 0, 0.09))
+        drop-shadow(0px 187px 112px rgba(0, 0, 0, 0.05))
+        drop-shadow(0px 333px 133px rgba(0, 0, 0, 0.01))
+        drop-shadow(0px 521px 146px rgba(0, 0, 0, 0));
+}
+
+.card:nth-of-type(5) {
+    z-index: 10;
+}
+
+.card header {
+    text-wrap: balance;
+    font-weight: 300;
+    background-color: black;
+    color: #efefef;
+    padding: 24px 32px;
+    text-transform: uppercase;
+    border-radius: 30px 30px 0 0;
+}
+
+.card header p:first-of-type:not(:last-of-type) {
+    margin: 0;
+    font-size: 46px;
+    width: 80%;
+    margin-bottom: 5px;
+}
+
+.card header p:last-of-type {
+    margin: 0;
+    font-size: 30px;
+    width: 90%;
+}
+
+.card:nth-of-type(3) header p:last-of-type {
+    width: 60%;
+}
+
+.card:nth-of-type(5) header p:last-of-type {
+    width: 100%;
+}
+
+.card > div {
+    background-color: white;
+    flex: 1;
+}
+
+.card > div img {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+}
