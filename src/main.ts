@@ -42,28 +42,18 @@ class SliderHanlder {
         const nextBtn = accessDomElement(SELECTORS.NEXT_BTN, HTMLButtonElement);
 
         nextBtn.addEventListener('click', () => {
-            nextBtn.disabled = true;
             this.currentCard =
                 this.currentCard === this.cards.length - 1
                     ? 0
                     : this.currentCard + 1;
 
             this.tick();
-
-            setTimeout(() => (nextBtn.disabled = false), 300);
         });
 
         this.dots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
-                this.dots.forEach((dot) => (dot.disabled = true));
-
                 this.currentCard = index;
                 this.tick();
-
-                setTimeout(
-                    () => this.dots.forEach((dot) => (dot.disabled = false)),
-                    300
-                );
             });
         });
     }
